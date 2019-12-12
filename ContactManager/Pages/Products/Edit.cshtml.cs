@@ -1,18 +1,24 @@
-using System.Linq;
 using System.Threading.Tasks;
 using ApplicationCore.Entities;
 using Infrastructure.Persistence;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using ContactManager.Authorization;
+using ContactManager.Pages.Contacts;
+using System.Linq;
 
 namespace ContactManager.Pages.Products
 {
-    public class EditModel : PageModel
+    public class EditModel : Product_BasePageModel
     {
         private readonly ConikeShopContext _context;
 
-        public EditModel(ConikeShopContext context)
+        public EditModel(ConikeShopContext context,
+                IAuthorizationService authorizationService,
+                UserManager<IdentityUser> userManager)
+                : base(context, authorizationService, userManager)
         {
             _context = context;
         }
@@ -33,6 +39,12 @@ namespace ContactManager.Pages.Products
             {
                 return NotFound();
             }
+             var isAuthorized = await AuthorizationService.AuthorizeAsync(User, Product, ContactOperations.Update);
+
+            if (!isAuthorized.Succeeded)
+            {
+                return Forbid();
+            }
             return Page();
         }
 
@@ -46,11 +58,20 @@ namespace ContactManager.Pages.Products
             }
 
             _context.Attach(Product).State = EntityState.Modified;
+            var isAuthorized = await AuthorizationService
+                                    .AuthorizeAsync(User, Product, ContactOperations.Update);
 
+            if (!isAuthorized.Succeeded)
+            {
+                return Forbid();
+            }
             try
             {
                 await _context.SaveChangesAsync();
             }
+            
+            
+
             catch (DbUpdateConcurrencyException)
             {
                 if (!ProductExists(Product.ID))

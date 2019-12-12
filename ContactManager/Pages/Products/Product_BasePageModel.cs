@@ -6,19 +6,19 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace ContactManager.Pages.Contacts
 {
-    public abstract class DI_BasePageModel : PageModel
+    public abstract class Product_BasePageModel : PageModel
     {
         protected ApplicationDbContext Context { get; }
          protected ConikeShopContext _Context {get;}
         protected IAuthorizationService AuthorizationService { get; }
         protected UserManager<IdentityUser> UserManager { get; }
 
-        public DI_BasePageModel(
-            ApplicationDbContext context,
+        public Product_BasePageModel(
+            ConikeShopContext _context,
             IAuthorizationService authorizationService,
             UserManager<IdentityUser> userManager) : base()
         {
-            Context = context;
+            _Context = _context;
             UserManager = userManager;
             AuthorizationService = authorizationService;
         }

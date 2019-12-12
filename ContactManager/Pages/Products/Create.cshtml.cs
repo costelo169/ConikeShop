@@ -1,16 +1,23 @@
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Infrastructure.Persistence;
 using ApplicationCore.Entities;
+using Infrastructure.Persistence;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using ContactManager.Authorization;
+using ContactManager.Pages.Contacts;
 
 namespace ContactManager.Pages.Products
 {
-    public class CreateModel : PageModel
+    public class CreateModel : Product_BasePageModel
     {
         private readonly ConikeShopContext _context;
 
-        public CreateModel(ConikeShopContext context)
+        public CreateModel(ConikeShopContext context,
+                IAuthorizationService authorizationService,
+                UserManager<IdentityUser> userManager)
+                : base(context, authorizationService, userManager)
         {
             _context = context;
         }
@@ -31,9 +38,15 @@ namespace ContactManager.Pages.Products
             {
                 return Page();
             }
-
+            
             _context.Products.Add(Product);
             await _context.SaveChangesAsync();
+            var isAuthorized = await AuthorizationService.AuthorizeAsync(User, Product, ContactOperations.Update);
+
+            if (!isAuthorized.Succeeded)
+            {
+                return Forbid();
+            }
 
             return RedirectToPage("./Index");
         }

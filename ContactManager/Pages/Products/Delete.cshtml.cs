@@ -1,18 +1,26 @@
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using ApplicationCore.Entities;
 using Infrastructure.Persistence;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using ContactManager.Authorization;
+using ContactManager.Pages.Contacts;
+using ContactManager.Pages.Products;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace ContactManager.Pages.Products
 {
-    public class DeleteModel : PageModel
+
+    public class DeleteModel : Product_BasePageModel
     {
         private readonly ConikeShopContext _context;
-
-        public DeleteModel(ConikeShopContext context)
+        public DeleteModel(
+                ConikeShopContext context,
+                IAuthorizationService authorizationService,
+                UserManager<IdentityUser> userManager)
+                : base(context, authorizationService, userManager)
         {
             _context = context;
         }
@@ -33,6 +41,12 @@ namespace ContactManager.Pages.Products
             {
                 return NotFound();
             }
+            var isAuthorized = await AuthorizationService.AuthorizeAsync(User, Product, ContactOperations.Update);
+
+            if (!isAuthorized.Succeeded)
+            {
+                return Forbid();
+            }
             return Page();
         }
 
@@ -43,14 +57,21 @@ namespace ContactManager.Pages.Products
                 return NotFound();
             }
 
-            Product = await _context.Products.FindAsync(id);
+            var Product = await _context.Products.FindAsync(id);
 
             if (Product != null)
             {
                 _context.Products.Remove(Product);
                 await _context.SaveChangesAsync();
             }
+            var isAuthorized = await AuthorizationService
+                                    .AuthorizeAsync(User, Product, ContactOperations.Update);
 
+            if (!isAuthorized.Succeeded)
+            {
+                return Forbid();
+            }
+            
             return RedirectToPage("./Index");
         }
     }
