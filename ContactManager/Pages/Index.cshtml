@@ -1,0 +1,36 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+<div class="text-center">
+    <h1 class="display-4">Welcome to Authorization Example</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/en-us/aspnet/core/security/authorization/secure-data?view=aspnetcore-3.1">
+        Create an ASP.NET Core app with user data protected by authorization</a>.</p>
+</div>
+<div>
+    <br/>
+    <h2 id="test-the-completed-app">Test the completed app</h2>
+    <br/>
+    <p>If you haven't already set a password for seeded user accounts, use the <a class="xref" href="../app-secrets?view=aspnetcore-3.1#secret-manager" data-linktype="relative-path">Secret Manager tool</a> to set a password:</p>
+    <ul>
+        <li><p>Choose a strong password: Use eight or more characters and at least one upper-case character, number, and symbol. For example, <code>Passw0rd!</code> meets the strong password requirements.</p>
+        </li>
+        <li><p>Execute the following command from the project's folder, where <code>&lt;PW&gt;</code> is the password:</p>
+        <pre><code class="lang-dotnetcli">dotnet user-secrets set SeedUserPW &lt;PW&gt;
+        </code></pre>
+        </li>
+        </ul>
+        <p>If the app has contacts:</p>
+        <ul>
+        <li>Delete all of the records in the <code>Contact</code> table.</li>
+        <li>Restart the app to seed the database.</li>
+        </ul>
+        <p>An easy way to test the completed app is to launch three different browsers (or incognito/InPrivate sessions). In one browser, register a new user (for example, <code>test@example.com</code>). Sign in to each browser with a different user. Verify the following operations:</p>
+        <ul>
+        <li>Registered users can view all of the approved contact data.</li>
+        <li>Registered users can edit/delete their own data.</li>
+        <li>Managers can approve/reject contact data. The <code>Details</code> view shows <strong>Approve</strong> and <strong>Reject</strong> buttons.</li>
+        <li>Administrators can approve/reject and edit/delete all data.</li>
+    </ul>
+</div>

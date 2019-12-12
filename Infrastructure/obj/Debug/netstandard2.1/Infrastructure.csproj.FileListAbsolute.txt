@@ -1,0 +1,11 @@
+C:\Users\MY PC\Desktop\CleanArch\Infrastructure\obj\Debug\netstandard2.1\Infrastructure.csprojAssemblyReference.cache
+C:\Users\MY PC\Desktop\CleanArch\Infrastructure\obj\Debug\netstandard2.1\Infrastructure.AssemblyInfoInputs.cache
+C:\Users\MY PC\Desktop\CleanArch\Infrastructure\obj\Debug\netstandard2.1\Infrastructure.AssemblyInfo.cs
+C:\Users\MY PC\Desktop\CleanArch\Infrastructure\bin\Debug\netstandard2.1\Infrastructure.deps.json
+C:\Users\MY PC\Desktop\CleanArch\Infrastructure\bin\Debug\netstandard2.1\Infrastructure.dll
+C:\Users\MY PC\Desktop\CleanArch\Infrastructure\bin\Debug\netstandard2.1\Infrastructure.pdb
+C:\Users\MY PC\Desktop\CleanArch\Infrastructure\bin\Debug\netstandard2.1\ApplicationCore.dll
+C:\Users\MY PC\Desktop\CleanArch\Infrastructure\bin\Debug\netstandard2.1\ApplicationCore.pdb
+C:\Users\MY PC\Desktop\CleanArch\Infrastructure\obj\Debug\netstandard2.1\Infrastructure.csproj.CopyComplete
+C:\Users\MY PC\Desktop\CleanArch\Infrastructure\obj\Debug\netstandard2.1\Infrastructure.dll
+C:\Users\MY PC\Desktop\CleanArch\Infrastructure\obj\Debug\netstandard2.1\Infrastructure.pdb
