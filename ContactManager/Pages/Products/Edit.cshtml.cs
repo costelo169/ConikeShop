@@ -39,12 +39,7 @@ namespace ContactManager.Pages.Products
             {
                 return NotFound();
             }
-             var isAuthorized = await AuthorizationService.AuthorizeAsync(User, Product, ContactOperations.Update);
-
-            if (!isAuthorized.Succeeded)
-            {
-                return Forbid();
-            }
+        
             return Page();
         }
 
@@ -58,13 +53,7 @@ namespace ContactManager.Pages.Products
             }
 
             _context.Attach(Product).State = EntityState.Modified;
-            var isAuthorized = await AuthorizationService
-                                    .AuthorizeAsync(User, Product, ContactOperations.Update);
-
-            if (!isAuthorized.Succeeded)
-            {
-                return Forbid();
-            }
+            
             try
             {
                 await _context.SaveChangesAsync();

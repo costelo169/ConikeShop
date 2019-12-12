@@ -8,23 +8,43 @@ using ConikeShop;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Infrastructure.Persistence;
 using ApplicationCore.Entities;
+using System.Threading.Tasks;
+using ContactManager.Data;
+using ContactManager.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using ContactManager.Authorization;
+using ContactManager.Pages.Contacts;
+
 
 namespace ContactManager.Pages.Products
 {
-    public class IndexModel : PageModel
+    public class IndexModel : Product_BasePageModel
     {
         private readonly ConikeShopContext _context;
 
-        public IndexModel(ConikeShopContext context)
+        public IndexModel(ConikeShopContext context,
+                IAuthorizationService authorizationService,
+                UserManager<IdentityUser> userManager)
+                : base(context, authorizationService, userManager)
         {
             _context = context;
         }
 
+      
         public PaginatedList<Product> Products { get;set; }
-
-        public void OnGet(string searchString,int pageIndex = 1)
+        public IList<Contact> Contact { get; set; }
+        
+        public void OnGetAsync(string searchString,int pageIndex = 1)
+        
         {
-             ViewData["searchString"] = searchString;
+             
+            ViewData["searchString"] = searchString;
+
+            var isAuthorized = User.IsInRole(Constants.ContactManagersRole) ||
+                               User.IsInRole(Constants.ContactAdministratorsRole);
+
+            var currentUserId = UserManager.GetUserId(User);
 
             var genres = from m in _context.Products
                          orderby m.Genre
@@ -53,5 +73,6 @@ namespace ContactManager.Pages.Products
         public SelectList Genres { get; set; }
         [BindProperty(SupportsGet = true)]
         public string ProductGenre { get; set; }
+        
     }
 }

@@ -41,12 +41,7 @@ namespace ContactManager.Pages.Products
             {
                 return NotFound();
             }
-            var isAuthorized = await AuthorizationService.AuthorizeAsync(User, Product, ContactOperations.Update);
-
-            if (!isAuthorized.Succeeded)
-            {
-                return Forbid();
-            }
+           
             return Page();
         }
 
@@ -64,13 +59,7 @@ namespace ContactManager.Pages.Products
                 _context.Products.Remove(Product);
                 await _context.SaveChangesAsync();
             }
-            var isAuthorized = await AuthorizationService
-                                    .AuthorizeAsync(User, Product, ContactOperations.Update);
-
-            if (!isAuthorized.Succeeded)
-            {
-                return Forbid();
-            }
+            
             
             return RedirectToPage("./Index");
         }
